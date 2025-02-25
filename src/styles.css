@@ -1,2 +1,10 @@
+/* Import the Inter font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+/* Apply the Inter font to the entire project */
+body {
+  font-family: 'Inter', sans-serif;
+}
+
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
