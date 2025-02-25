@@ -45,8 +45,9 @@ export class FormComponent {
       if(params.get('slug')){
         this.loaderService.show();
         this.routeParams=extractSlugParams(params.get('slug')??'');
+        console.log(this.routeParams);
         this.blogService.getBlog(this.routeParams.id).subscribe((blog) => {
-          if(blog && blog.author.id!=this.authService.user()?.id){
+          if(blog && blog.slug==this.routeParams.slug && blog.author.id==this.authService.user()?.id){
             this.editMode = true;
             this.blog = blog;
             this.form.patchValue({
@@ -55,6 +56,10 @@ export class FormComponent {
               themes: blog.getThemes()
             });
             this.imagePreview = blog.image;
+          }else{
+            this.router.navigate(['/not-found']);
+            this.loaderService.hide();
+            return ;
           }
           this.loaderService.hide();
         });
