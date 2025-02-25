@@ -1,124 +1,149 @@
-<div class="grid grid-cols-12 gap-4">
-  <div class="col-span-8 border-r border-r-[#D9D9D9] p-4 px-8">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+  <div class="col-span-1 md:col-span-9 border-r border-r-[#D9D9D9] p-4 px-8">
     <div class="flex">
       <div class="mt-32 flex flex-col space-y-4">
-        <div class="like">
-            <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M14.5833 9.37498V5.20831C14.5833 4.37951 14.254 3.58466 13.668 2.9986C13.0819 2.41255 12.2871 2.08331 11.4583 2.08331L7.29158 11.4583V22.9166H19.0416C19.544 22.9223 20.0316 22.7462 20.4144 22.4208C20.7972 22.0954 21.0496 21.6426 21.1249 21.1458L22.5624 11.7708C22.6077 11.4722 22.5876 11.1674 22.5034 10.8773C22.4192 10.5873 22.2729 10.319 22.0748 10.0911C21.8766 9.86324 21.6313 9.68116 21.3557 9.5575C21.0802 9.43384 20.7811 9.37156 20.4791 9.37498H14.5833ZM7.29158 22.9166H4.16659C3.61405 22.9166 3.08415 22.6972 2.69345 22.3065C2.30275 21.9158 2.08325 21.3858 2.08325 20.8333V13.5416C2.08325 12.9891 2.30275 12.4592 2.69345 12.0685C3.08415 11.6778 3.61405 11.4583 4.16659 11.4583H7.29158" fill="none"/>
-            <path d="M7.29159 22.9166H4.16659C3.61405 22.9166 3.08415 22.6972 2.69345 22.3065C2.30275 21.9158 2.08325 21.3858 2.08325 20.8333V13.5416C2.08325 12.9891 2.30275 12.4592 2.69345 12.0685C3.08415 11.6778 3.61405 11.4583 4.16659 11.4583H7.29159M14.5833 9.37498V5.20831C14.5833 4.37951 14.254 3.58466 13.668 2.9986C13.0819 2.41255 12.2871 2.08331 11.4583 2.08331L7.29159 11.4583V22.9166H19.0416C19.544 22.9223 20.0316 22.7462 20.4144 22.4208C20.7972 22.0954 21.0496 21.6426 21.1249 21.1458L22.5624 11.7708C22.6077 11.4722 22.5876 11.1674 22.5034 10.8773C22.4192 10.5873 22.2729 10.319 22.0748 10.0911C21.8766 9.86324 21.6313 9.68116 21.3557 9.5575C21.0802 9.43384 20.7811 9.37156 20.4791 9.37498H14.5833Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-
-          <span class="text-gray-800 dark:text-white">12</span>
-        </div>
-        <div class="vue">
+        
+        <div class="vue flex justify-center flex-col items-center">
           <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
             width="24" height="24" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-width="2"
               d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z" />
             <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
           </svg>
-          <span class="text-gray-800 dark:text-white">13</span>
+          <span class="text-gray-800 dark:text-white">{{ blog?.vues }}</span>
+        </div>
+        <div 
+        (click)="toggleLike()"
+        class="like flex justify-center flex-col items-center cursor-pointer">
+        @if(authService.user()&&blog?.isLikedBy(authService.user()?.id??0)){
+          <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M14.5833 9.37498V5.20831C14.5833 4.37951 14.254 3.58466 13.668 2.9986C13.0819 2.41255 12.2871 2.08331 11.4583 2.08331L7.29158 11.4583V22.9166H19.0416C19.544 22.9223 20.0316 22.7462 20.4144 22.4208C20.7972 22.0954 21.0496 21.6426 21.1249 21.1458L22.5624 11.7708C22.6077 11.4722 22.5876 11.1674 22.5034 10.8773C22.4192 10.5873 22.2729 10.319 22.0748 10.0911C21.8766 9.86324 21.6313 9.68116 21.3557 9.5575C21.0802 9.43384 20.7811 9.37156 20.4791 9.37498H14.5833ZM7.29158 22.9166H4.16659C3.61405 22.9166 3.08415 22.6972 2.69345 22.3065C2.30275 21.9158 2.08325 21.3858 2.08325 20.8333V13.5416C2.08325 12.9891 2.30275 12.4592 2.69345 12.0685C3.08415 11.6778 3.61405 11.4583 4.16659 11.4583H7.29158" fill="#444CE7"/>
+            <path d="M7.29159 22.9166H4.16659C3.61405 22.9166 3.08415 22.6972 2.69345 22.3065C2.30275 21.9158 2.08325 21.3858 2.08325 20.8333V13.5416C2.08325 12.9891 2.30275 12.4592 2.69345 12.0685C3.08415 11.6778 3.61405 11.4583 4.16659 11.4583H7.29159M14.5833 9.37498V5.20831C14.5833 4.37951 14.254 3.58466 13.668 2.9986C13.0819 2.41255 12.2871 2.08331 11.4583 2.08331L7.29159 11.4583V22.9166H19.0416C19.544 22.9223 20.0316 22.7462 20.4144 22.4208C20.7972 22.0954 21.0496 21.6426 21.1249 21.1458L22.5624 11.7708C22.6077 11.4722 22.5876 11.1674 22.5034 10.8773C22.4192 10.5873 22.2729 10.319 22.0748 10.0911C21.8766 9.86324 21.6313 9.68116 21.3557 9.5575C21.0802 9.43384 20.7811 9.37156 20.4791 9.37498H14.5833Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>            
+        }@else {
+          <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M14.5833 9.37498V5.20831C14.5833 4.37951 14.254 3.58466 13.668 2.9986C13.0819 2.41255 12.2871 2.08331 11.4583 2.08331L7.29158 11.4583V22.9166H19.0416C19.544 22.9223 20.0316 22.7462 20.4144 22.4208C20.7972 22.0954 21.0496 21.6426 21.1249 21.1458L22.5624 11.7708C22.6077 11.4722 22.5876 11.1674 22.5034 10.8773C22.4192 10.5873 22.2729 10.319 22.0748 10.0911C21.8766 9.86324 21.6313 9.68116 21.3557 9.5575C21.0802 9.43384 20.7811 9.37156 20.4791 9.37498H14.5833ZM7.29158 22.9166H4.16659C3.61405 22.9166 3.08415 22.6972 2.69345 22.3065C2.30275 21.9158 2.08325 21.3858 2.08325 20.8333V13.5416C2.08325 12.9891 2.30275 12.4592 2.69345 12.0685C3.08415 11.6778 3.61405 11.4583 4.16659 11.4583H7.29158"
+              fill="none" />
+            <path
+              d="M7.29159 22.9166H4.16659C3.61405 22.9166 3.08415 22.6972 2.69345 22.3065C2.30275 21.9158 2.08325 21.3858 2.08325 20.8333V13.5416C2.08325 12.9891 2.30275 12.4592 2.69345 12.0685C3.08415 11.6778 3.61405 11.4583 4.16659 11.4583H7.29159M14.5833 9.37498V5.20831C14.5833 4.37951 14.254 3.58466 13.668 2.9986C13.0819 2.41255 12.2871 2.08331 11.4583 2.08331L7.29159 11.4583V22.9166H19.0416C19.544 22.9223 20.0316 22.7462 20.4144 22.4208C20.7972 22.0954 21.0496 21.6426 21.1249 21.1458L22.5624 11.7708C22.6077 11.4722 22.5876 11.1674 22.5034 10.8773C22.4192 10.5873 22.2729 10.319 22.0748 10.0911C21.8766 9.86324 21.6313 9.68116 21.3557 9.5575C21.0802 9.43384 20.7811 9.37156 20.4791 9.37498H14.5833Z"
+              stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        }
+          <span class="text-gray-800 dark:text-white">{{ blog?.like?.length}}</span>
         </div>
       </div>
       <div class="content w-full p-6 flex flex-col space-y-4">
         <div class="flex items-center justify-between">
           <div class="flex space-x-2 mt-3">
-            <span class="px-3 py-1 border border-black rounded-full text-xs text-[#344054]">React</span>
-            <span class="px-3 py-1 border border-black rounded-full text-xs text-[#344054]">Creative Dev</span>
+            @for (theme of blog?.themes; track theme.id) {
+            <span class="px-3 py-1 border border-black rounded-full text-xs text-[#344054] space-y-2">{{ theme.titre }}</span>
+            }
           </div>
-          <span class="text-xs text-gray-600">il y a 2 jours</span>
+          <span class="text-xs text-gray-600">{{ blog?.createdAt | date:'dd MMM yyyy HH:mm' }}</span>
         </div>
-        <h1 class="text-3xl font-bold ">5 bonnes pratiques sur React</h1>
+        <h1 class="text-3xl font-bold ">{{ blog?.titre }}</h1>
         <img class="w-full h-64 object-cover"
-          src="https://imgs.search.brave.com/Bt0eCxTIgNF4W_7bwKvzg6NRU8SJHH8mj8oskUgmojU/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNDg0/NTA2ODg2L3Bob3Rv/L25ld3NwYXBlci5q/cGc_cz02MTJ4NjEy/Jnc9MCZrPTIwJmM9/aWFfT05HVkI5d05x/dnNvMXVuS2dUZnZP/WlhiNVVfOFZBcXNj/aU1FTlFWWT0"
+          src="{{ blog?.image }}"
           alt="Article">
-        <p class="text-2xs text-gray-600">Lorem ipsum dolor sit amet consectetur.
-          Felis turpis libero praesent montes sem nisl luctus velit. Laoreet ligula posuere pellentesque nunc rhoncus
-          volutpat elementum nec amet. Varius elementum id auctor risus enim sollicitudin adipiscing. Consequat amet ut
-          nunc phasellus leo nunc. Enim turpis purus mi nunc ac bibendum integer. Bibendum lorem magna hac adipiscing
-          massa.
-          Curabitur lectus molestie at massa mus eleifend. Arcu in risus aenean facilisis sit phasellus. Bibendum
-          risus magnis enim quam ut. Cras morbi sed nibh commodo enim dolor. Sem purus a tincidunt pretium pellentesque
-          faucibus ligula.
-          Tristique eros a purus ultrices malesuada sed cras aliquet risus. Vestibulum feugiat sed elementum
-          sollicitudin varius faucibus turpis cursus. Enim sed egestas sed vestibulum.
-          Quisque enim mi condimentum augue.
-          Tempus nunc duis dignissim cursus vulputate sagittis. At sagittis morbi sed laoreet. Quis euismod rhoncus
-          volutpat rhoncus. Egestas tellus rhoncus morbi duis tortor non vehicula. Nullam nulla neque sagittis risus sem
-          volutpat dolor iaculis. Velit sit nunc a vitae donec euismod vivamus quis. Massa ipsum et interdum convallis.
-          Facilisis tellus est enim urna sit. Erat sit nulla vestibulum amet adipiscing eu. Ac habitasse tortor velit
-        </p>
+        <div class="prose max-w-none break-words">
+          <p class="text-2xs text-gray-600" [innerHTML]="blog?.content"></p>
+        </div>
       </div>
     </div>
   </div>
-  <div class="col-span-4 p-8 flex flex-col space-y-4">
-      <!-- Profil -->
-      <div class="flex items-center space-x-3">
-        <img src="https://imgs.search.brave.com/i7pyw16UyFp_bxBNY9NB_DAKBSgXpwMFCzS-urZHJe0/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly92YXJp/ZXR5LmNvbS93cC1j/b250ZW50L3VwbG9h/ZHMvMjAyMC8wOC9h/dmF0YXItdGhlLWxh/c3QtYWlyYmVuZGVy/LTMuanBnP3c9MTAw/MCZoPTU2MyZjcm9w/PTE" alt="Profile" class="w-12 h-12 rounded-full">
-        <div>
-          <h3 class="text-sm font-semibold">Le kimbi créatif</h3>
-          <p class="text-xs text-gray-500">Développeur Fullstack. Je fais de la vulgarisation sur le développement frontend et backend</p>
-        </div>
-      </div>
-
-      <hr class="my-4 border-gray-200">
-
-      <!-- Partage -->
-      <div class="">
-        <p class="text-[16px] text-[#344054] font-medium">Partager l’article</p>
-      <div class="flex space-x-3 mt-4">
-        <a href="#" class="text-blue-600">
-          <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g clip-path="url(#clip0_24_10050)">
-            <path d="M23.1545 0H1.84549C1.35603 0 0.886626 0.194435 0.540531 0.540531C0.194435 0.886626 0 1.35603 0 1.84549V23.1545C0 23.644 0.194435 24.1134 0.540531 24.4595C0.886626 24.8056 1.35603 25 1.84549 25H23.1545C23.644 25 24.1134 24.8056 24.4595 24.4595C24.8056 24.1134 25 23.644 25 23.1545V1.84549C25 1.35603 24.8056 0.886626 24.4595 0.540531C24.1134 0.194435 23.644 0 23.1545 0ZM7.45139 21.2969H3.69271V9.35764H7.45139V21.2969ZM5.56944 7.70312C5.14309 7.70072 4.72699 7.57208 4.37368 7.33342C4.02037 7.09477 3.74567 6.7568 3.58425 6.36218C3.42283 5.96755 3.38192 5.53395 3.4667 5.1161C3.55147 4.69825 3.75813 4.31487 4.06058 4.01436C4.36303 3.71384 4.74772 3.50965 5.16611 3.42756C5.5845 3.34547 6.01783 3.38916 6.41141 3.55311C6.80499 3.71706 7.14119 3.99392 7.37757 4.34876C7.61395 4.7036 7.73992 5.12051 7.73958 5.54688C7.74361 5.83233 7.69012 6.11567 7.5823 6.38C7.47449 6.64434 7.31456 6.88427 7.11205 7.08549C6.90954 7.2867 6.66859 7.44509 6.40357 7.5512C6.13854 7.65731 5.85486 7.70898 5.56944 7.70312ZM21.3056 21.3073H17.5486V14.7847C17.5486 12.8611 16.7309 12.2674 15.6753 12.2674C14.5608 12.2674 13.467 13.1076 13.467 14.8333V21.3073H9.70833V9.36632H13.3229V11.0208H13.3715C13.7344 10.2865 15.0052 9.03125 16.9444 9.03125C19.0417 9.03125 21.3073 10.276 21.3073 13.9219L21.3056 21.3073Z" fill="#0A66C2"/>
-            </g>
-            <defs>
-            <clipPath id="clip0_24_10050">
-            <rect width="25" height="25" fill="white"/>
-            </clipPath>
-            </defs>
-            </svg>
-        </a>
-        <a href="#" class="text-blue-400">
-          <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M7.862 22.657C17.296 22.657 22.456 14.841 22.456 8.063C22.456 7.841 22.456 7.62 22.441 7.4C23.4448 6.67391 24.3114 5.77488 25 4.745C24.0639 5.16 23.0709 5.43204 22.054 5.552C23.1248 4.91105 23.9262 3.90282 24.309 2.715C23.3022 3.31251 22.2007 3.73357 21.052 3.96C20.2787 3.13769 19.2559 2.59317 18.1419 2.41071C17.0279 2.22826 15.8848 2.41804 14.8895 2.95068C13.8943 3.48333 13.1023 4.32914 12.6362 5.35724C12.1701 6.38534 12.0558 7.5384 12.311 8.638C10.2718 8.53571 8.27683 8.00574 6.45568 7.08251C4.63453 6.15927 3.02788 4.8634 1.74 3.279C1.08409 4.40816 0.8832 5.74486 1.17823 7.01694C1.47326 8.28902 2.24202 9.40083 3.328 10.126C2.5117 10.1021 1.71317 9.88187 1 9.484V9.549C1.00032 10.7332 1.41026 11.8809 2.16028 12.7973C2.9103 13.7137 3.95423 14.3425 5.115 14.577C4.35988 14.783 3.56758 14.8131 2.799 14.665C3.12689 15.6841 3.76503 16.5752 4.62421 17.2139C5.48338 17.8525 6.52065 18.2067 7.591 18.227C6.52754 19.0629 5.3097 19.6809 4.00716 20.0457C2.70462 20.4106 1.34293 20.515 0 20.353C2.34566 21.8582 5.07492 22.6567 7.862 22.653" fill="#1DA1F2"/>
-            </svg>
-        </a>
-        <a href="#" class="text-blue-500">
-          <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M25 12.5C25 5.59644 19.4036 0 12.5 0C5.59644 0 0 5.59644 0 12.5C0 18.739 4.57104 23.9104 10.5469 24.8481V16.1133H7.37305V12.5H10.5469V9.74609C10.5469 6.61328 12.4131 4.88281 15.2683 4.88281C16.6355 4.88281 18.0664 5.12695 18.0664 5.12695V8.20312H16.4902C14.9375 8.20312 14.4531 9.16675 14.4531 10.1562V12.5H17.9199L17.3657 16.1133H14.4531V24.8481C20.429 23.9104 25 18.739 25 12.5Z" fill="#1877F2"/>
-            </svg>
-        </a>
-      </div>
-      </div>
-
-      <hr class="my-4 border-gray-200">
-
-      <!-- Boutons -->
-      <div class="space-y-2">
-        <button class="w-full flex items-center justify-center space-x-2 px-4 py-2 border border-[#D0D5DD] rounded-lg text-gray-700 hover:bg-gray-100">
-          <span>Modifier l’article</span>
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8 13H13.625M10.8125 2.68752C11.0611 2.43888 11.3984 2.29919 11.75 2.29919C11.9241 2.29919 12.0965 2.33349 12.2574 2.40012C12.4182 2.46675 12.5644 2.56441 12.6875 2.68752C12.8106 2.81063 12.9083 2.95679 12.9749 3.11765C13.0415 3.2785 13.0758 3.45091 13.0758 3.62502C13.0758 3.79913 13.0415 3.97153 12.9749 4.13239C12.9083 4.29325 12.8106 4.43941 12.6875 4.56252L4.875 12.375L2.375 13L3 10.5L10.8125 2.68752Z" stroke="#344054" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </button>
-        <button class="w-full flex items-center justify-center space-x-2 px-4 py-2 border border-[#FED8DC] rounded-lg text-[#CE1126] hover:bg-red-50">
-          <span>Supprimer l’article</span>
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g clip-path="url(#clip0_28_488)">
-            <path d="M2.375 4.25H3.625H13.625" stroke="#CE1126" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M12.375 4.25V13C12.375 13.3315 12.2433 13.6495 12.0089 13.8839C11.7745 14.1183 11.4565 14.25 11.125 14.25H4.875C4.54348 14.25 4.22554 14.1183 3.99112 13.8839C3.7567 13.6495 3.625 13.3315 3.625 13V4.25M5.5 4.25V3C5.5 2.66848 5.6317 2.35054 5.86612 2.11612C6.10054 1.8817 6.41848 1.75 6.75 1.75H9.25C9.58152 1.75 9.89946 1.8817 10.1339 2.11612C10.3683 2.35054 10.5 2.66848 10.5 3V4.25" stroke="#CE1126" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M6.75 7.375V11.125" stroke="#CE1126" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M9.25 7.375V11.125" stroke="#CE1126" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </g>
-            <defs>
-            <clipPath id="clip0_28_488">
-            <rect width="15" height="15" fill="white" transform="translate(0.5 0.5)"/>
-            </clipPath>
-            </defs>
-            </svg>
-        </button>
+  <div class="col-span-1 md:col-span-3 p-8 flex flex-col space-y-4">
+    <!-- Profil -->
+    <div class="flex items-center space-x-3">
+      <img
+        src="{{ blog?.author?.getAvatar()}}"
+        alt="Profile" class="w-12 h-12 rounded-full">
+      <div>
+        <h3 class="text-sm font-semibold">{{ blog?.author?.fullName }}</h3>
+        <p class="text-xs text-gray-500">{{ blog?.author?.bio }}</p>
       </div>
     </div>
+
+    <hr class="my-4 border-gray-200">
+
+    <!-- Partage -->
+    <div class="">
+      <p class="text-[16px] text-[#344054] font-medium">Partager l’article</p>
+      <div class="flex space-x-3 mt-4">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ blog?.url }}" class="text-blue-600">
+          <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_24_10050)">
+              <path
+                d="M23.1545 0H1.84549C1.35603 0 0.886626 0.194435 0.540531 0.540531C0.194435 0.886626 0 1.35603 0 1.84549V23.1545C0 23.644 0.194435 24.1134 0.540531 24.4595C0.886626 24.8056 1.35603 25 1.84549 25H23.1545C23.644 25 24.1134 24.8056 24.4595 24.4595C24.8056 24.1134 25 23.644 25 23.1545V1.84549C25 1.35603 24.8056 0.886626 24.4595 0.540531C24.1134 0.194435 23.644 0 23.1545 0ZM7.45139 21.2969H3.69271V9.35764H7.45139V21.2969ZM5.56944 7.70312C5.14309 7.70072 4.72699 7.57208 4.37368 7.33342C4.02037 7.09477 3.74567 6.7568 3.58425 6.36218C3.42283 5.96755 3.38192 5.53395 3.4667 5.1161C3.55147 4.69825 3.75813 4.31487 4.06058 4.01436C4.36303 3.71384 4.74772 3.50965 5.16611 3.42756C5.5845 3.34547 6.01783 3.38916 6.41141 3.55311C6.80499 3.71706 7.14119 3.99392 7.37757 4.34876C7.61395 4.7036 7.73992 5.12051 7.73958 5.54688C7.74361 5.83233 7.69012 6.11567 7.5823 6.38C7.47449 6.64434 7.31456 6.88427 7.11205 7.08549C6.90954 7.2867 6.66859 7.44509 6.40357 7.5512C6.13854 7.65731 5.85486 7.70898 5.56944 7.70312ZM21.3056 21.3073H17.5486V14.7847C17.5486 12.8611 16.7309 12.2674 15.6753 12.2674C14.5608 12.2674 13.467 13.1076 13.467 14.8333V21.3073H9.70833V9.36632H13.3229V11.0208H13.3715C13.7344 10.2865 15.0052 9.03125 16.9444 9.03125C19.0417 9.03125 21.3073 10.276 21.3073 13.9219L21.3056 21.3073Z"
+                fill="#0A66C2" />
+            </g>
+            <defs>
+              <clipPath id="clip0_24_10050">
+                <rect width="25" height="25" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+        </a>
+        <a href="https://twitter.com/intent/tweet?url={{ blog?.url }}" class="text-blue-400">
+          <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M7.862 22.657C17.296 22.657 22.456 14.841 22.456 8.063C22.456 7.841 22.456 7.62 22.441 7.4C23.4448 6.67391 24.3114 5.77488 25 4.745C24.0639 5.16 23.0709 5.43204 22.054 5.552C23.1248 4.91105 23.9262 3.90282 24.309 2.715C23.3022 3.31251 22.2007 3.73357 21.052 3.96C20.2787 3.13769 19.2559 2.59317 18.1419 2.41071C17.0279 2.22826 15.8848 2.41804 14.8895 2.95068C13.8943 3.48333 13.1023 4.32914 12.6362 5.35724C12.1701 6.38534 12.0558 7.5384 12.311 8.638C10.2718 8.53571 8.27683 8.00574 6.45568 7.08251C4.63453 6.15927 3.02788 4.8634 1.74 3.279C1.08409 4.40816 0.8832 5.74486 1.17823 7.01694C1.47326 8.28902 2.24202 9.40083 3.328 10.126C2.5117 10.1021 1.71317 9.88187 1 9.484V9.549C1.00032 10.7332 1.41026 11.8809 2.16028 12.7973C2.9103 13.7137 3.95423 14.3425 5.115 14.577C4.35988 14.783 3.56758 14.8131 2.799 14.665C3.12689 15.6841 3.76503 16.5752 4.62421 17.2139C5.48338 17.8525 6.52065 18.2067 7.591 18.227C6.52754 19.0629 5.3097 19.6809 4.00716 20.0457C2.70462 20.4106 1.34293 20.515 0 20.353C2.34566 21.8582 5.07492 22.6567 7.862 22.653"
+              fill="#1DA1F2" />
+          </svg>
+        </a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u={{ blog?.url }}" class="text-blue-500">
+          <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M25 12.5C25 5.59644 19.4036 0 12.5 0C5.59644 0 0 5.59644 0 12.5C0 18.739 4.57104 23.9104 10.5469 24.8481V16.1133H7.37305V12.5H10.5469V9.74609C10.5469 6.61328 12.4131 4.88281 15.2683 4.88281C16.6355 4.88281 18.0664 5.12695 18.0664 5.12695V8.20312H16.4902C14.9375 8.20312 14.4531 9.16675 14.4531 10.1562V12.5H17.9199L17.3657 16.1133H14.4531V24.8481C20.429 23.9104 25 18.739 25 12.5Z"
+              fill="#1877F2" />
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <hr class="my-4 border-gray-200">
+
+    <!-- Boutons -->
+    <div class="space-y-2">
+      <button
+        [disabled]="authService.user()&&authService.user()?.id!=blog?.author?.id"
+        (click)="editBlog()"
+        class="w-full flex items-center justify-center space-x-2 px-4 py-2 border border-[#D0D5DD] rounded-lg text-gray-700 hover:bg-gray-100 cursor-pointer disabled:text-gray-400 disabled:cursor-default">
+        <span>Modifier l’article</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M8 13H13.625M10.8125 2.68752C11.0611 2.43888 11.3984 2.29919 11.75 2.29919C11.9241 2.29919 12.0965 2.33349 12.2574 2.40012C12.4182 2.46675 12.5644 2.56441 12.6875 2.68752C12.8106 2.81063 12.9083 2.95679 12.9749 3.11765C13.0415 3.2785 13.0758 3.45091 13.0758 3.62502C13.0758 3.79913 13.0415 3.97153 12.9749 4.13239C12.9083 4.29325 12.8106 4.43941 12.6875 4.56252L4.875 12.375L2.375 13L3 10.5L10.8125 2.68752Z"
+            stroke="#344054" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      <button
+        (click)="deleteBlog()"
+        [disabled]="authService.user()&&authService.user()?.id!=blog?.author?.id"
+        class="w-full flex items-center justify-center space-x-2 px-4 py-2 border border-[#FED8DC] rounded-lg text-[#CE1126] hover:bg-red-50 cursor-pointer disabled:text-red-200 disabled:cursor-default">
+        <span>Supprimer l’article</span>
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <g clip-path="url(#clip0_28_488)">
+            <path d="M2.375 4.25H3.625H13.625" stroke="#CE1126" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <path
+              d="M12.375 4.25V13C12.375 13.3315 12.2433 13.6495 12.0089 13.8839C11.7745 14.1183 11.4565 14.25 11.125 14.25H4.875C4.54348 14.25 4.22554 14.1183 3.99112 13.8839C3.7567 13.6495 3.625 13.3315 3.625 13V4.25M5.5 4.25V3C5.5 2.66848 5.6317 2.35054 5.86612 2.11612C6.10054 1.8817 6.41848 1.75 6.75 1.75H9.25C9.58152 1.75 9.89946 1.8817 10.1339 2.11612C10.3683 2.35054 10.5 2.66848 10.5 3V4.25"
+              stroke="#CE1126" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M6.75 7.375V11.125" stroke="#CE1126" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <path d="M9.25 7.375V11.125" stroke="#CE1126" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </g>
+          <defs>
+            <clipPath id="clip0_28_488">
+              <rect width="15" height="15" fill="white" transform="translate(0.5 0.5)" />
+            </clipPath>
+          </defs>
+        </svg>
+      </button>
+      @if(authService.user()&&authService.user()?.id!=blog?.author?.id){
+        <span class="text-sm text-red-400">Vous n'etes pas l'auteur de cet article</span>
+      }
+    </div>
+  </div>
 
 </div>

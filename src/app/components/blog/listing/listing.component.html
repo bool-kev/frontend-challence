@@ -1,7 +1,7 @@
-<div class="grid grid-cols-12 gap-4">
-  <div class="col-span-8 border-r p-4 px-12 ">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+  <div class="col-span-1 md:col-span-8 border-r border-r-[#D9D9D9] p-4 px-8 ">
     <div class="mb-4">
-      <div class="flex items-center justify-between px-8">
+      <div class="flex items-center justify-between px-8 ">
         <h1 class="font-inter text-3xl font-bold leading-[24.2px] tracking-normal text-[#344054] ">Blog</h1>
         <div class="relative">
           <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none"
@@ -18,119 +18,100 @@
         la tech rédigés par des experts et des professionnels de la programmation, du design, du devops, et bien
         d'autres domaines connexes.</p>
     </div>
+    <div class="my-4 space-x-1 space-y-2">
+      @for (theme of selectedThemes; track theme) {
+      <div class="inline-flex items-center bg-gray-300 text-gray-700 text-sm font-medium px-3 py-1 rounded-full">
+        <span>{{ theme }}</span>
+        <button type="button" class="ml-2 focus:outline-none cursor-pointer" (click)="removeFilter(theme)">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd"
+              d="M10 8.586l-6.243-6.243-1.414 1.414L8.586 10l-6.243 6.243 1.414 1.414L10 11.414l6.243 6.243 1.414-1.414L11.414 10l6.243-6.243-1.414-1.414L10 8.586z"
+              clip-rule="evenodd" />
+          </svg>
+        </button>
+      </div>
+
+      }
+    </div>
     <div class="w-full flex gap-6 flex-col">
-      @for (item of [1,2,3,4,5]; track $index) {
-      <div class="flex items-center border rounded-2xl p-7 shadow-sm space-x-4">
+      @for (blog of paginator.data; track blog.id) {
+      <div (click)="voirPlus(blog)"
+        class="flex items-center border border-[#D9D9D9] rounded-2xl p-4 shadow-sm space-x-4 cursor-pointer">
         <!-- Contenu textuel -->
         <div class="flex-1">
-          <h2 class="font-semibold text-lg">Titre de l’article</h2>
-          <p class="text-gray-600 text-sm mt-1">
-            Lorem ipsum dolor sit amet consectetur. Felis turpis libero praesent montes sem nisl luctus velit. Laoreet
-            ligula posuere pellentesque nunc...
-          </p>
+          <h2 class="font-semibold text-lg">{{ blog.titre }}</h2>
+            <p class="text-gray-600 text-sm mt-1" [innerHTML]="blog.content.length > 100 ? (blog.content.substring(0, 100) + '...') : blog.content">
+            </p>
           <!-- Tags -->
-          <div class="flex space-x-2 mt-3">
-            <span class="px-3 py-1 border rounded-full text-xs text-gray-600">React</span>
-            <span class="px-3 py-1 border rounded-full text-xs text-gray-600">Creative Dev</span>
+          <div class="flex space-x-2 mt-3 items-end">
+            @for (tag of blog.themes; track tag.titre) {
+            <span class="px-3 py-1 border rounded-full text-xs text-gray-600">{{ tag.titre }}</span>
+            }
           </div>
         </div>
 
         <!-- Informations supplémentaires -->
         <div class="flex flex-col items-end space-y-2">
-          <span class="text-gray-400 text-xs">10 Feb 2023 10:26</span>
+          <span class="text-gray-400 text-xs">{{ blog.createdAt | date:'dd MMM yyyy HH:mm' }}</span>
           <div class="w-[170px] h-[126px] rounded-xl overflow-hidden">
-            <img
-              src="https://imgs.search.brave.com/Bt0eCxTIgNF4W_7bwKvzg6NRU8SJHH8mj8oskUgmojU/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvNDg0/NTA2ODg2L3Bob3Rv/L25ld3NwYXBlci5q/cGc_cz02MTJ4NjEy/Jnc9MCZrPTIwJmM9/aWFfT05HVkI5d05x/dnNvMXVuS2dUZnZP/WlhiNVVfOFZBcXNj/aU1FTlFWWT0"
-              alt="Article" class="w-full h-full object-cover">
+            <img src="{{ blog.image }}" alt="Article" class="w-full h-full object-cover">
           </div>
         </div>
       </div>
 
+      }@empty {
+      <div class="flex items-center border-[#D9D9D9] rounded-2xl p-7 shadow-sm space-x-4">
+        <div class="flex-1">
+            <h2 class="font-semibold text-xl text-center text-gray-500">Aucun article disponible</h2>
+        </div>
+      </div>
       }
+      <div class="flex justify-between">
+        <button (click)="previousPage()" [disabled]="paginator.meta.current_page === 1"
+          class="bg-indigo-600 disabled:bg-blue-300 disabled:cursor-default text-white px-4 py-2 rounded-lg cursor-pointer flex items-center">
+          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+          </svg>
+          precedent
+        </button>
+        <span>Page {{ paginator.meta.current_page }} sur {{ paginator.meta.last_page }}</span>
+        <button (click)="nextPage()" [disabled]="paginator.meta.current_page === paginator.meta.last_page"
+          class="bg-indigo-600 disabled:bg-blue-300 disabled:cursor-default text-white px-4 py-2 rounded-lg cursor-pointer flex items-center">
+          suivant
+          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
-  <div class="col-span-4 p-4 px-8">
+  <div class="col-span-1 md:col-span-4 p-4 px-8">
     <h4>Rechercher par items</h4>
-    <div class="max-w-xs border rounded-2xl shadow-sm bg-white mt-4">
+    <div class="max-w-xs border border-[#D9D9D9] rounded-2xl shadow-sm bg-white mt-4">
       <!-- Liste des catégories -->
       <ul class="divide-y divide-gray-200">
-        <li class="flex items-center justify-between py-3 mx-4">
+        @for (theme of themes; track theme.titre) {
+        <li (click)="addFilter(theme.titre)"
+          class="flex items-center justify-between py-3 mx-4 cursor-pointer hover:bg-gray-100">
           <div>
-            <h3 class="text-sm font-medium">ReactJS</h3>
-            <p class="text-xs text-gray-500">309 articles</p>
+            <h3 class="text-sm font-medium">{{ theme.titre }}</h3>
+            <p class="text-xs text-gray-500">{{ theme.blogs }} articles</p>
           </div>
           <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
               d="M17.5 18L13.875 14.375M15.8333 9.66667C15.8333 13.3486 12.8486 16.3333 9.16667 16.3333C5.48477 16.3333 2.5 13.3486 2.5 9.66667C2.5 5.98477 5.48477 3 9.16667 3C12.8486 3 15.8333 5.98477 15.8333 9.66667Z"
               stroke="#79808C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
-
         </li>
 
+        }@empty {
         <li class="flex items-center justify-between py-3 mx-4">
           <div>
-            <h3 class="text-sm font-medium">UX/UI Design</h3>
-            <p class="text-xs text-gray-500">200 articles</p>
+            <h3 class="text-sm font-medium">Aucun thème disponible</h3>
           </div>
-          <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M17.5 18L13.875 14.375M15.8333 9.66667C15.8333 13.3486 12.8486 16.3333 9.16667 16.3333C5.48477 16.3333 2.5 13.3486 2.5 9.66667C2.5 5.98477 5.48477 3 9.16667 3C12.8486 3 15.8333 5.98477 15.8333 9.66667Z"
-              stroke="#79808C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
 
         </li>
-
-        <li class="flex items-center justify-between py-3 mx-4">
-          <div>
-            <h3 class="text-sm font-medium">Backend</h3>
-            <p class="text-xs text-gray-500">70 articles</p>
-          </div>
-          <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M17.5 18L13.875 14.375M15.8333 9.66667C15.8333 13.3486 12.8486 16.3333 9.16667 16.3333C5.48477 16.3333 2.5 13.3486 2.5 9.66667C2.5 5.98477 5.48477 3 9.16667 3C12.8486 3 15.8333 5.98477 15.8333 9.66667Z"
-              stroke="#79808C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-
-        </li>
-
-        <li class="flex items-center justify-between py-3 mx-4">
-          <div>
-            <h3 class="text-sm font-medium">Graphisme</h3>
-            <p class="text-xs text-gray-500">32 articles</p>
-          </div>
-          <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M17.5 18L13.875 14.375M15.8333 9.66667C15.8333 13.3486 12.8486 16.3333 9.16667 16.3333C5.48477 16.3333 2.5 13.3486 2.5 9.66667C2.5 5.98477 5.48477 3 9.16667 3C12.8486 3 15.8333 5.98477 15.8333 9.66667Z"
-              stroke="#79808C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-
-        </li>
-
-        <li class="flex items-center justify-between py-3 mx-4">
-          <div>
-            <h3 class="text-sm font-medium">Cyber-sécurité</h3>
-            <p class="text-xs text-gray-500">24 articles</p>
-          </div>
-          <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M17.5 18L13.875 14.375M15.8333 9.66667C15.8333 13.3486 12.8486 16.3333 9.16667 16.3333C5.48477 16.3333 2.5 13.3486 2.5 9.66667C2.5 5.98477 5.48477 3 9.16667 3C12.8486 3 15.8333 5.98477 15.8333 9.66667Z"
-              stroke="#79808C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-
-        </li>
-
-        <li class="flex items-center justify-between py-3 mx-4">
-          <div>
-            <h3 class="text-sm font-medium">Data-science</h3>
-            <p class="text-xs text-gray-500">189 articles</p>
-          </div>
-          <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M17.5 18L13.875 14.375M15.8333 9.66667C15.8333 13.3486 12.8486 16.3333 9.16667 16.3333C5.48477 16.3333 2.5 13.3486 2.5 9.66667C2.5 5.98477 5.48477 3 9.16667 3C12.8486 3 15.8333 5.98477 15.8333 9.66667Z"
-              stroke="#79808C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-
-        </li>
+        }
       </ul>
     </div>
 

@@ -1,21 +1,67 @@
 <div class="p-4 px-30.5 flex flex-col gap-4">
-  <h1 class="text-3xl text-[#344054]">Ajouter un nouvel Article</h1>
-  <div class="grid grid-cols-4 border-b border-b-gray-300 py-3">
-    <span class="col-span-1 flex items-center">Titre</span>
-    <input  type="text" class=" border border-[#D0D5DD] rounded-md col-span-3 py-2.5 px-3." />
-  </div>
-  <div class="grid grid-cols-4 border-b border-b-gray-300 py-3">
-    <span class="col-span-1 flex items-center">Thèmes</span>
-    <div class="col-span-3">
-      <input  type="text" class="border border-[#D0D5DD] rounded-md py-2.5 px-3 block w-full" />
-      <span class="">Separez les thèmes par une virgule</span>
+  <h1 class="text-3xl text-[#344054]">{{ editMode ? 'Modifier l\'Article' : 'Ajouter un nouvel Article' }}</h1>
+  <form [formGroup]="form" (submit)="onSubmit()" enctype="multipart/form-data">
+    <div class="grid grid-cols-4 border-b border-b-gray-300 py-3">
+      <span class="col-span-1 flex items-center">Titre</span>
+      <input formControlName="titre" type="text" class="border border-[#D0D5DD] rounded-md col-span-3 py-2.5 px-3" />
     </div>
-  </div>
-  <div class="grid grid-cols-4 border-b border-b-gray-300 py-3">
-    <span class="col-span-1 flex items-center">Thèmes</span>
-    <div class="col-span-3">
-      <input  type="text" class="border border-[#D0D5DD] rounded-md py-2.5 px-3 block w-full" />
-      <span class="">Separez les thèmes par une virgule</span>
+    <div class="grid grid-cols-4 border-b border-b-gray-300 py-3">
+      <span class="col-span-1 flex items-center">Thèmes</span>
+      <div class="col-span-3">
+        <input formControlName="themes" type="text" class="border border-[#D0D5DD] rounded-md py-2.5 px-3 block w-full" />
+        <span class="text-sm">Separez les thèmes par une virgule</span>
+      </div>
     </div>
-  </div>
+    <div class="grid grid-cols-4 border-b border-b-gray-300 py-3">
+      <span class="col-span-1 flex items-center">Image</span>
+      <div class="col-span-3 flex items-center space-x-1" >
+      @if(imagePreview){
+        <div class="ml-4 w-1/4 transition-transform duration-300 ease-in-out transform hover:scale-105">
+          <img [src]="imagePreview" alt="Image Preview" class="w-full h-32 object-cover rounded-lg" />
+        </div>
+        <button (click)="removeImage()" title="supprimer" class="bg-red-500 z-50 text-white rounded-full p-1 opacity-75 hover:opacity-100 transition-opacity duration-300 ease-in-out">
+          &times;
+        </button>
+      }@else {
+        <div class="w-1/4 h-32 flex items-center justify-center transition-transform duration-300 ease-in-out transform hover:scale-105">
+            <svg 
+            class="w-full h-full"
+            viewBox="0 0 153 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="153" height="100" rx="8" fill="#D9D9D9"/>
+            <rect width="153" height="100" rx="8" fill="#F0F0F0"/>
+            <path d="M90.0392 22.8483H62.747C60.5937 22.8483 58.8481 24.5939 58.8481 26.7472V54.0394C58.8481 56.1927 60.5937 57.9383 62.747 57.9383H90.0392C92.1925 57.9383 93.9381 56.1927 93.9381 54.0394V26.7472C93.9381 24.5939 92.1925 22.8483 90.0392 22.8483Z" stroke="#898989" stroke-width="3.89888" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M69.5702 36.4944C71.1851 36.4944 72.4943 35.1853 72.4943 33.5703C72.4943 31.9553 71.1851 30.6461 69.5702 30.6461C67.9552 30.6461 66.646 31.9553 66.646 33.5703C66.646 35.1853 67.9552 36.4944 69.5702 36.4944Z" stroke="#898989" stroke-width="3.89888" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M93.9382 46.2417L84.1909 36.4944L62.7471 57.9383" stroke="#898989" stroke-width="3.89888" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+      }
+        <div class="flex items-center justify-center w-3/4">
+          <label for="dropzone-file"
+            class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600 transition-colors duration-300 ease-in-out">
+            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+              <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+              </svg>
+                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Cliquez pour télécharger</span>
+                ou faites glisser et déposez</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG ou GIF (MAX. 800x400px)</p>
+            </div>
+            <input id="dropzone-file" type="file" (change)="onFileChange($event)" class="hidden" accept="image/*"/>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="grid grid-cols-4 border-b border-b-gray-300 py-3">
+      <span class="col-span-1 flex items-center">Bio</span>
+      <div class="col-span-3">
+        <quill-editor formControlName="content" [styles]="{height: '200px'}"></quill-editor>
+      </div>
+    </div>
+    <div class="flex justify-end mt-4">
+      <button type="button" class="text-[#344054] border border-[#344054] px-4 py-2 rounded-md mr-4 cursor-pointer transition-transform duration-300 ease-in-out transform hover:scale-105">Annuler</button>
+      <button [disabled]="form.invalid || !editMode&&!form.value.image" type="submit" class="text-white bg-blue-600 disabled:bg-blue-300 px-4 py-2 rounded-md cursor-pointer transition-transform duration-300 ease-in-out transform hover:scale-105">{{ editMode ? 'Mettre à jour l\'article' : "Publier l'article" }}</button>
+    </div>
+  </form>
 </div>
